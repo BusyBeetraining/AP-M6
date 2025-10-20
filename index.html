@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AS-6: CRM Note-Taking | Buzzworks VA</title>
+    <script>
+        function showExample(exampleNum) {
+            var examples = document.getElementsByClassName('example-content');
+            for (var i = 0; i < examples.length; i++) {
+                examples[i].classList.remove('active');
+            }
+            
+            var buttons = document.getElementsByClassName('example-btn');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            
+            document.getElementById('example-' + exampleNum).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function copyTemplate() {
+            var template = document.getElementById('template-text');
+            var text = template.innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                var btn = document.getElementById('copy-template-btn');
+                btn.innerText = '✅ Copied!';
+                setTimeout(function() {
+                    btn.innerText = '📋 Copy Template';
+                }, 2000);
+            });
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --sage: #8b9d83;
+            --peach: #f6b5a7;
+            --mint: #c9d8c5;
+            --cream: #f8f9f6;
+            --dark: #2d3e2d;
+            --text: #3d4d3d;
+            --good: #51cf66;
+            --bad: #ff6b6b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--sage) 0%, var(--mint) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .intro-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--peach);
+        }
+
+        .section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .section h2 {
+            color: var(--sage);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--mint);
+        }
+
+        .section h3 {
+            color: var(--dark);
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem 0;
+        }
+
+        .template-box {
+            background: #f8f8f8;
+            border: 2px solid var(--mint);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .template-text {
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--sage);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .copy-btn:hover {
+            background: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        .best-practices {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .practice-card {
+            background: linear-gradient(135deg, var(--cream) 0%, white 100%);
+            border: 3px solid var(--mint);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .practice-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            border-color: var(--sage);
+        }
+
+        .practice-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .practice-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, var(--mint) 0%, var(--cream) 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--sage);
+        }
+
+        .tip-box strong {
+            color: var(--dark);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 3px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .warning-box strong {
+            color: #856404;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .examples-section {
+            margin: 2rem 0;
+        }
+
+        .example-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .example-btn {
+            padding: 1rem;
+            background: var(--cream);
+            border: 2px solid var(--mint);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+        }
+
+        .example-btn:hover {
+            background: var(--mint);
+        }
+
+        .example-btn.active {
+            background: linear-gradient(135deg, var(--sage) 0%, var(--mint) 100%);
+            color: white;
+            border-color: var(--sage);
+        }
+
+        .example-content {
+            display: none;
+        }
+
+        .example-content.active {
+            display: block;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .bad-example {
+            background: #ffe8e8;
+            border: 3px solid var(--bad);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .bad-example h4 {
+            color: #c92a2a;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .good-example {
+            background: #e8f5e8;
+            border: 3px solid var(--good);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .good-example h4 {
+            color: #2b8a3e;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .note-sample {
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .why-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.5);
+            border-radius: 8px;
+            border-left: 4px solid rgba(0,0,0,0.2);
+        }
+
+        .why-box strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .practice-exercise {
+            background: linear-gradient(135deg, var(--peach) 0%, #ffd4c9 100%);
+            padding: 2rem;
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+
+        .exercise-header {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .mock-call {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--sage);
+        }
+
+        .speaker {
+            font-weight: 600;
+            color: var(--sage);
+            margin-top: 1rem;
+        }
+
+        .speaker:first-child {
+            margin-top: 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .example-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">BUZZWORKS VA</div>
+        <h1>MODULE AS-6</h1>
+        <div class="subtitle">CRM Note-Taking for Appointment Setters</div>
+        <div class="meta-info">
+            <div class="meta-item">
+                <span>⏱️</span>
+                <span>Duration: 2 Hours</span>
+            </div>
+            <div class="meta-item">
+                <span>📚</span>
+                <span>Week 2 - Role-Specific Training</span>
+            </div>
+            <div class="meta-item">
+                <span>🎯</span>
+                <span>Phase 2A</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="intro-section">
+            <h2>Why Note-Taking Makes or Breaks Your Effectiveness</h2>
+            <p>Your CRM notes are not just documentation—they're the intelligence briefing that determines whether your agent walks into an appointment prepared or blindsided. Great notes transform a cold appointment into a warm conversation where the agent already knows the prospect's situation, concerns, and hot buttons. Poor notes waste your agent's time and destroy trust with the prospect.</p>
+            
+            <div class="tip-box" style="margin-top: 1.5rem;">
+                <strong>🎯 The Golden Rule:</strong>
+                Your notes should be so detailed that someone who's never spoken to the prospect could read them and feel like they know exactly what's going on. If your agent has to ask questions you already covered, your notes failed.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>The Perfect Note Format</h2>
+            
+            <p>Consistency is critical. Every single note should follow this exact format. Copy this template and use it for every call:</p>
+
+            <div class="template-box">
+                <button class="copy-btn" id="copy-template-btn" onclick="copyTemplate()">📋 Copy Template</button>
+                <div class="template-text" id="template-text">DATE & TIME: [MM/DD/YYYY, HH:MM AM/PM]
+CALL OUTCOME: [Appointment Booked / Left Voicemail / No Answer / Not Interested / Callback Scheduled]
+
+CONVERSATION SUMMARY:
+- Looking to [buy/sell] in [area]
+- Timeline: [urgency level + specific dates if mentioned]
+- Budget: [price range, pre-approval status]
+- Motivation: [why buying/selling - direct quote if possible]
+- Property preferences: [bedrooms, features, must-haves]
+- Decision makers: [single, couple, family]
+- Hot buttons: [what they care most about]
+
+APPOINTMENT DETAILS:
+- Scheduled: [Day, Date, Time, Timezone]
+- Type: [Phone / Zoom / In-person]
+- Sent calendar invite: [YES/NO]
+- Confirmation email sent: [YES/NO]
+
+NEXT STEPS:
+- Reminder set for [24 hours before]
+- Follow-up needed: [any additional action items]
+
+AGENT NOTES:
+[Any special instructions or things agent should know]</div>
+            </div>
+
+            <h3>Breaking Down Each Section</h3>
+
+            <div class="best-practices">
+                <div class="practice-card">
+                    <div class="practice-icon">📅</div>
+                    <div class="practice-title">Date & Time + Call Outcome</div>
+                    <p><strong>Format:</strong> 10/20/2025, 2:30 PM</p>
+                    <p style="margin-top: 0.5rem;"><strong>Outcome Options:</strong></p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem; font-size: 0.95rem;">
+                        <li>Appointment Booked ✅</li>
+                        <li>Left Voicemail 📞</li>
+                        <li>No Answer ❌</li>
+                        <li>Not Interested 🚫</li>
+                        <li>Callback Scheduled 🔄</li>
+                    </ul>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">💬</div>
+                    <div class="practice-title">Conversation Summary</div>
+                    <p>The meat of your notes. Include:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem; font-size: 0.95rem;">
+                        <li>What they want (buy/sell/both)</li>
+                        <li>Where (specific neighborhoods)</li>
+                        <li>When (exact timeline if given)</li>
+                        <li>Why (their motivation—use quotes!)</li>
+                        <li>Who (all decision makers)</li>
+                    </ul>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">📋</div>
+                    <div class="practice-title">Appointment Details</div>
+                    <p>Crystal clear scheduling info:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem; font-size: 0.95rem;">
+                        <li>Exact date and time with timezone</li>
+                        <li>Meeting type specified</li>
+                        <li>Confirmation that invites were sent</li>
+                        <li>Link or location if applicable</li>
+                    </ul>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">⏭️</div>
+                    <div class="practice-title">Next Steps</div>
+                    <p>What happens next:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem; font-size: 0.95rem;">
+                        <li>Reminders scheduled</li>
+                        <li>Follow-up actions needed</li>
+                        <li>Any documents to send</li>
+                        <li>When to call back if no appointment</li>
+                    </ul>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">⭐</div>
+                    <div class="practice-title">Agent Notes</div>
+                    <p>Critical intel your agent must know:</p>
+                    <ul style="margin-left: 1.5rem; margin-top: 0.5rem; font-size: 0.95rem;">
+                        <li>Emotional tone (excited, hesitant, frustrated)</li>
+                        <li>Special circumstances</li>
+                        <li>Red flags or concerns</li>
+                        <li>Rapport-building opportunities</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>The 6 Best Practices for Excellent Notes</h2>
+
+            <div class="best-practices">
+                <div class="practice-card">
+                    <div class="practice-icon">⏱️</div>
+                    <div class="practice-title">Write Notes DURING the Call</div>
+                    <p>Not after. Not later. During. Your memory fades within minutes.</p>
+                    <div class="tip-box" style="margin-top: 1rem;">
+                        <strong>How:</strong> Keep your CRM open in one window, phone/dialer in another. Type as you talk. It's okay to pause briefly to capture important details.
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">✍️</div>
+                    <div class="practice-title">Use Full Sentences</div>
+                    <p>No abbreviations. No shorthand. Write like you're explaining to someone who wasn't there.</p>
+                    <div class="warning-box" style="margin-top: 1rem;">
+                        <strong>❌ Bad:</strong> "Slr, 3bd, 200k, asap"<br>
+                        <strong>✅ Good:</strong> "Looking to sell 3-bedroom home, hoping to list around $200K, wants to move quickly due to job relocation"
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">💭</div>
+                    <div class="practice-title">Include Direct Quotes</div>
+                    <p>When prospects say something revealing, quote them exactly. This gives your agent powerful talking points.</p>
+                    <div class="tip-box" style="margin-top: 1rem;">
+                        <strong>Example:</strong> Prospect said: "I'm tired of throwing money away on rent" — This tells your agent to emphasize building equity and wealth through homeownership.
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">😊</div>
+                    <div class="practice-title">Note Emotional Tone</div>
+                    <p>Excited? Hesitant? Frustrated? Desperate? Your agent needs to know the emotional state.</p>
+                    <div class="tip-box" style="margin-top: 1rem;">
+                        <strong>Examples:</strong><br>
+                        "Very enthusiastic, ready to move forward immediately"<br>
+                        "Seemed hesitant, may need more nurturing"<br>
+                        "Frustrated with current agent, looking for better service"
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">🔥</div>
+                    <div class="practice-title">Flag Urgency Level</div>
+                    <p>Make it impossible for your agent to miss a hot lead.</p>
+                    <div class="tip-box" style="margin-top: 1rem;">
+                        <strong>Use flags:</strong><br>
+                        🔥 HOT: 0-30 days<br>
+                        🌡️ WARM: 1-6 months<br>
+                        ❄️ COLD: 6+ months
+                    </div>
+                </div>
+
+                <div class="practice-card">
+                    <div class="practice-icon">✅</div>
+                    <div class="practice-title">Always Include Next Steps</div>
+                    <p>Never leave a note without stating what happens next. This creates accountability and ensures follow-through.</p>
+                    <div class="tip-box" style="margin-top: 1rem;">
+                        <strong>Examples:</strong><br>
+                        "Appointment booked for 10/22 at 2 PM"<br>
+                        "Call back on Friday per prospect's request"<br>
+                        "Added to nurture campaign, follow up in 3 months"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Good vs. Bad Examples: Learn from Comparisons</h2>
+            
+            <p>The best way to master note-taking is to see what works and what doesn't. Study these 10 real-world examples:</p>
+
+            <div class="examples-section">
+                <div class="example-buttons">
+                    <button class="example-btn active" onclick="showExample(1)">Example 1: Seller Call</button>
+                    <button class="example-btn" onclick="showExample(2)">Example 2: Buyer Call</button>
+                    <button class="example-btn" onclick="showExample(3)">Example 3: Not Interested</button>
+                    <button class="example-btn" onclick="showExample(4)">Example 4: Callback</button>
+                    <button class="example-btn" onclick="showExample(5)">Example 5: Voicemail</button>
+                    <button class="example-btn" onclick="showExample(6)">Example 6: Hot Lead</button>
+                    <button class="example-btn" onclick="showExample(7)">Example 7: Cold Lead</button>
+                    <button class="example-btn" onclick="showExample(8)">Example 8: Multiple Props</button>
+                    <button class="example-btn" onclick="showExample(9)">Example 9: Hesitant Buyer</button>
+                    <button class="example-btn" onclick="showExample(10)">Example 10: Urgent Seller</button>
+                </div>
+
+                <div id="example-1" class="example-content active">
+                    <div class="comparison-grid">
+                        <div class="bad-example">
+                            <h4>❌ BAD NOTE</h4>
+                            <div class="note-sample">Talked to seller. Wants to sell house. Call back later.</div>
+                            <div class="why-box">
+                                <strong>Why This Fails:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>No date/time stamp</li>
+                                    <li>No details about property</li>
+                                    <li>No timeline or motivation</li>
+                                    <li>No specific callback date</li>
+                                    <li>Completely useless to agent</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="good-example">
+                            <h4>✅ GOOD NOTE</h4>
+                            <div class="note-sample">DATE & TIME: 10/20/2025, 2:15 PM
+CALL OUTCOME: Appointment Booked
+
+CONVERSATION SUMMARY:
+- Looking to sell 3-bed, 2-bath home in Riverside area
+- Timeline: Needs to sell within 60 days (job relocation to Dallas)
+- Budget: Hoping to list around $285K based on neighbor's recent sale
+- Motivation: Accepted job offer, starts December 1st. Said "I need this handled quickly and professionally"
+- Property details: Built 2015, well-maintained, minor cosmetic updates needed
+- Decision makers: Married couple, both on title, both will attend appointment
+- Hot buttons: Speed and reliability are critical due to timeline
+
+APPOINTMENT DETAILS:
+- Scheduled: Thursday, October 24, 2025, 6:00 PM EST
+- Type: In-person at property (1234 Oak Street, Riverside)
+- Sent calendar invite: YES
+- Confirmation email sent: YES
+
+NEXT STEPS:
+- Reminder set for October 23 at 6:00 PM
+- Send prelisting checklist via email
+- Confirm appointment via phone call 24 hours before
+
+AGENT NOTES:
+🔥 HOT LEAD - Very motivated due to job relocation timeline. Prospect was professional and appreciative of quick response. Wife is nervous about timeline, husband is confident. Agent should emphasize our quick sale track record and offer reassurance about meeting their December 1st deadline.</div>
+                            <div class="why-box">
+                                <strong>Why This Works:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Complete date/time stamp</li>
+                                    <li>Detailed property information</li>
+                                    <li>Clear timeline with reason</li>
+                                    <li>Direct quote captured</li>
+                                    <li>Emotional intelligence noted</li>
+                                    <li>Specific next steps outlined</li>
+                                    <li>Agent has everything needed to prepare</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="example-2" class="example-content">
+                    <div class="comparison-grid">
+                        <div class="bad-example">
+                            <h4>❌ BAD NOTE</h4>
+                            <div class="note-sample">Buyer wants house. 3br. Has money. Set appt tue.</div>
+                            <div class="why-box">
+                                <strong>Why This Fails:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Vague and abbreviated</li>
+                                    <li>No areas mentioned</li>
+                                    <li>No budget specifics</li>
+                                    <li>No exact appointment time</li>
+                                    <li>No motivation or context</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="good-example">
+                            <h4>✅ GOOD NOTE</h4>
+                            <div class="note-sample">DATE & TIME: 10/20/2025, 10:30 AM
+CALL OUTCOME: Appointment Booked
+
+CONVERSATION SUMMARY:
+- First-time homebuyer looking in Westside and Downtown areas
+- Timeline: Wants to purchase within 3-4 months (lease ends January 31st)
+- Budget: Pre-approved for $350K with First National Bank, has $50K down payment ready
+- Motivation: "Tired of renting and watching prices go up. Want to build equity." Currently paying $2,200/month rent and knows he can afford a mortgage.
+- Property preferences: 3 bedrooms minimum, 2+ baths, move-in ready, garage preferred, good school district for future family
+- Decision makers: Single buyer, no one else needs to approve
+- Hot buttons: Investment value, building wealth, first-time buyer nerves
+
+APPOINTMENT DETAILS:
+- Scheduled: Tuesday, October 22, 2025, 5:30 PM EST
+- Type: Zoom Meeting
+- Sent calendar invite: YES
+- Confirmation email sent: YES
+
+NEXT STEPS:
+- Reminder set for October 21 at 5:30 PM
+- Send first-time buyer guide via email
+- Prepare pre-approval questions for agent review
+
+AGENT NOTES:
+🌡️ WARM LEAD - Buyer is motivated and financially qualified but has some first-time buyer anxiety. Very analytical, asked lots of questions about the process. Agent should focus on education and reassurance. Emphasize our experience with first-time buyers. He mentioned his parents bought investment properties, so he understands real estate value.</div>
+                            <div class="why-box">
+                                <strong>Why This Works:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Captures buyer's mindset with quote</li>
+                                    <li>Financial details are complete</li>
+                                    <li>Identifies hot buttons for agent</li>
+                                    <li>Notes emotional state (anxiety)</li>
+                                    <li>Gives agent conversation strategy</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="example-3" class="example-content">
+                    <div class="comparison-grid">
+                        <div class="bad-example">
+                            <h4>❌ BAD NOTE</h4>
+                            <div class="note-sample">Not interested.</div>
+                            <div class="why-box">
+                                <strong>Why This Fails:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>No context for why</li>
+                                    <li>No date/time</li>
+                                    <li>Doesn't help future follow-up</li>
+                                    <li>Missed opportunity to learn</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="good-example">
+                            <h4>✅ GOOD NOTE</h4>
+                            <div class="note-sample">DATE & TIME: 10/20/2025, 3:45 PM
+CALL OUTCOME: Not Interested
+
+CONVERSATION SUMMARY:
+- Prospect filled out online form but says she was "just browsing"
+- Not actively looking to buy or sell at this time
+- Currently owns home in Lakewood, no plans to move
+- Timeline: "Maybe in a few years when kids are grown"
+- Reason for form: Curious about current home values but not motivated to act
+
+NEXT STEPS:
+- Added to long-term nurture campaign (quarterly check-ins)
+- Set follow-up reminder for April 2026 (6 months)
+- Tagged as "Future Potential - Low Priority"
+
+AGENT NOTES:
+❄️ COLD LEAD - Prospect was polite but clear she's not in buying/selling mode. No need to pursue aggressively. Keep in nurture list for future opportunity when life circumstances change. She did mention kids are in high school, so may become active in 2-3 years.</div>
+                            <div class="why-box">
+                                <strong>Why This Works:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Explains why they're not interested</li>
+                                    <li>Documents their situation for context</li>
+                                    <li>Sets clear follow-up timeline</li>
+                                    <li>Saves time by flagging as cold</li>
+                                    <li>Identifies potential future timing</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="example-4" class="example-content">
+                    <div class="comparison-grid">
+                        <div class="bad-example">
+                            <h4>❌ BAD NOTE</h4>
+                            <div class="note-sample">Call back Thursday.</div>
+                            <div class="why-box">
+                                <strong>Why This Fails:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Which Thursday?</li>
+                                    <li>What time?</li>
+                                    <li>Why are we calling back?</li>
+                                    <li>What was discussed?</li>
+                                    <li>Zero actionable information</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="good-example">
+                            <h4>✅ GOOD NOTE</h4>
+                            <div class="note-sample">DATE & TIME: 10/20/2025, 11:15 AM
+CALL OUTCOME: Callback Scheduled
+
+CONVERSATION SUMMARY:
+- Looking to sell investment property in College Park area
+- Timeline: Considering listing in next 2-3 months
+- Property details: 2-bed, 1-bath rental currently occupied by tenant (lease ends December 31st)
+- Motivation: Wants to consolidate portfolio, property needs work
+- Decision makers: Owns with business partner, needs to discuss timing together
+
+CALLBACK DETAILS:
+- Scheduled callback: Thursday, October 24, 2025 at 2:00 PM
+- Reason: Prospect needs to speak with business partner first about timing and pricing expectations
+- Prospect specifically requested I call back (not just email)
+
+NEXT STEPS:
+- Set reminder for October 24 at 1:45 PM to prepare for callback
+- Review comparable sales in College Park area before callback
+- Have agent's availability ready for next week in case they're ready to book
+
+AGENT NOTES:
+🌡️ WARM LEAD - Prospect is serious but needs partner buy-in. He mentioned they're tired of managing the rental and recent tenant issues. This is a genuine lead, just needs coordination time. Be prepared to discuss as-is sale options since property needs repairs.</div>
+                            <div class="why-box">
+                                <strong>Why This Works:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Exact callback date and time</li>
+                                    <li>Clear reason for callback</li>
+                                    <li>Context about property and situation</li>
+                                    <li>Preparation steps outlined</li>
+                                    <li>Keeps lead warm with context</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="example-5" class="example-content">
+                    <div class="comparison-grid">
+                        <div class="bad-example">
+                            <h4>❌ BAD NOTE</h4>
+                            <div class="note-sample">VM left</div>
+                            <div class="why-box">
+                                <strong>Why This Fails:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>What did you say in voicemail?</li>
+                                    <li>When will you try again?</li>
+                                    <li>Is this first or third attempt?</li>
+                                    <li>No lead source info</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="good-example">
+                            <h4>✅ GOOD NOTE</h4>
+                            <div class="note-sample">DATE & TIME: 10/20/2025, 9:30 AM
+CALL OUTCOME: Left Voicemail
+
+VOICEMAIL MESSAGE LEFT:
+"Hi Maria, this is Sarah from Buzzworks VA. I'm calling about the home buying inquiry you submitted on our website yesterday. I'd love to discuss what you're looking for and see how we can help. Please give me a call back at 555-0123 or I'll try you again tomorrow. Looking forward to speaking with you!"
+
+LEAD DETAILS:
+- Lead source: Website inquiry form submitted 10/19/2025
+- Inquiry type: First-time buyer information request
+- Phone number: 555-9876 (mobile)
+- Email: maria.garcia@email.com
+- This is attempt #1
+
+NEXT STEPS:
+- Try calling again tomorrow (10/21) at different time (try evening around 6 PM)
+- Send follow-up email with first-time buyer guide
+- If no response after 3 attempts, add to email nurture sequence
+- Final attempt scheduled for 10/23/2025
+
+AGENT NOTES:
+New lead from website. No conversation yet so can't assess qualification. Form indicated interest in 3-bedroom homes under $300K. Will continue pursuit with multi-touch approach.</div>
+                            <div class="why-box">
+                                <strong>Why This Works:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Documents exact voicemail message</li>
+                                    <li>Tracks attempt number</li>
+                                    <li>Has clear follow-up plan</li>
+                                    <li>Includes lead source context</li>
+                                    <li>Multi-channel strategy outlined</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="example-6" class="example-content">
+                    <div class="comparison-grid">
+                        <div class="bad-example">
+                            <h4>❌ BAD NOTE</h4>
+                            <div class="note-sample">Hot lead! Book ASAP. Needs to sell fast.</div>
+                            <div class="why-box">
+                                <strong>Why This Fails:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>No specifics about property</li>
+                                    <li>Why do they need to sell fast?</li>
+                                    <li>Is appointment actually booked?</li>
+                                    <li>Missing critical qualification details</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="good-example">
+                            <h4>✅ GOOD NOTE</h4>
+                            <div class="note-sample">DATE & TIME: 10/20/2025, 4:20 PM
+CALL OUTCOME: Appointment Booked
+
+CONVERSATION SUMMARY:
+- Urgent seller! 4-bed, 3-bath home at 789 Maple Drive, Eastside
+- Timeline: NEEDS TO CLOSE BY NOVEMBER 30TH (foreclosure notice received)
+- Budget: Owes $180K, home worth approximately $220K based on his research
+- Motivation: Behind on payments due to job loss, received foreclosure notice last week. Said "I don't want to lose everything I've built. I need help fast."
+- Property condition: Well-maintained, no major issues, move-in ready
+- Decision makers: Single homeowner, recently divorced (ex-wife off title)
+- Hot buttons: URGENCY, avoiding foreclosure, protecting credit, getting out with some equity
+
+APPOINTMENT DETAILS:
+- Scheduled: TOMORROW - Monday, October 21, 2025, 10:00 AM EST
+- Type: In-person at property (789 Maple Drive)
+- Sent calendar invite: YES
+- Confirmation email sent: YES
+
+NEXT STEPS:
+- Send foreclosure prevention resources immediately
+- Set reminder for tonight at 8 PM to confirm appointment
+- Personal confirmation call tomorrow at 9 AM
+- Have cash buyer contacts ready for agent
+
+AGENT NOTES:
+🔥🔥🔥 EXTREMELY HOT LEAD - This is a distressed sale with tight timeline. Prospect is emotional but cooperative. Very appreciative of quick response. Agent MUST emphasize our experience with foreclosure prevention and quick closes. This could be a cash buyer opportunity or traditional if we move fast. Prospect mentioned he has job interviews lined up and may be able to catch up on payments if we buy time, but he's realistic about needing to sell. Priority Level: HIGHEST</div>
+                            <div class="why-box">
+                                <strong>Why This Works:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Urgency level crystal clear</li>
+                                    <li>Specific deadline documented</li>
+                                    <li>Emotional context captured</li>
+                                    <li>Multiple reminder touchpoints</li>
+                                    <li>Strategic guidance for agent</li>
+                                    <li>Solution options identified</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="example-7" class="example-content">
+                    <div class="comparison-grid">
+                        <div class="bad-example">
+                            <h4>❌ BAD NOTE</h4>
+                            <div class="note-sample">Kicking tires. Not serious. Long timeline.</div>
+                            <div class="why-box">
+                                <strong>Why This Fails:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Dismissive tone</li>
+                                    <li>No actual timeline given</li>
+                                    <li>No nurture strategy</li>
+                                    <li>Closes door on future opportunity</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="good-example">
+                            <h4>✅ GOOD NOTE</h4>
+                            <div class="note-sample">DATE & TIME: 10/20/2025, 1:10 PM
+CALL OUTCOME: Callback Scheduled
+
+CONVERSATION SUMMARY:
+- Looking to buy first home but timeline is 12-18 months out
+- Timeline: Currently saving for down payment, hopes to have $30K ready by spring 2026
+- Budget: Target price range $250-280K, has not spoken to lender yet
+- Motivation: Tired of renting, wants to settle down, getting married next summer
+- Property preferences: 3 beds, 2 baths, prefers suburbs with good schools
+- Decision makers: Engaged couple, both need to be involved
+- Current situation: Both have stable jobs, combined income ~$95K
+
+CALLBACK DETAILS:
+- Scheduled callback: January 15, 2026 at 10:00 AM
+- Purpose: Check on down payment progress and discuss pre-approval
+
+NEXT STEPS:
+- Added to 12-month nurture email campaign
+- Sent first-time buyer resources and down payment savings tips
+- Set quarterly check-in reminders (Jan, Apr, July 2026)
+- Tagged as "Future Buyer - Long Timeline - High Potential"
+
+AGENT NOTES:
+❄️ COLD LEAD - Not ready now, but this is a genuine future buyer. Young professional couple, financially responsible, just needs time to save. Very friendly and appreciative of information. Don't push for appointment now, but maintain relationship. They specifically mentioned wanting to work with someone who understands first-time buyers. Good candidate for educational content nurturing. When they're ready in 2026, we want to be their first call.</div>
+                            <div class="why-box">
+                                <strong>Why This Works:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Respects their timeline</li>
+                                    <li>Documents genuine potential</li>
+                                    <li>Sets up proper nurture strategy</li>
+                                    <li>Maintains relationship opportunity</li>
+                                    <li>Specific re-engagement date</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="example-8" class="example-content">
+                    <div class="comparison-grid">
+                        <div class="bad-example">
+                            <h4>❌ BAD NOTE</h4>
+                            <div class="note-sample">Has multiple properties. Wants to sell some. Interested.</div>
+                            <div class="why-box">
+                                <strong>Why This Fails:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Which properties?</li>
+                                    <li>How many?</li>
+                                    <li>What's the priority?</li>
+                                    <li>No specifics at all</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="good-example">
+                            <h4>✅ GOOD NOTE</h4>
+                            <div class="note-sample">DATE & TIME: 10/20/2025, 3:00 PM
+CALL OUTCOME: Appointment Booked
+
+CONVERSATION SUMMARY:
+- Real estate investor with 6 rental properties, looking to liquidate 2-3
+- Timeline: Wants to sell within 6 months (by April 2026)
+- Properties being considered:
+  1. 123 Pine St - 3/2 duplex, both units rented, tenants on month-to-month
+  2. 456 Oak Ave - 2/1 single family, currently vacant, needs minor repairs
+  3. 789 Elm Rd - 4/2 house, long-term tenant, lease through June 2026
+- Motivation: "Portfolio rebalancing. Want to consolidate and upgrade to commercial properties." Cash from sales will fund larger investment.
+- Budget: Combined estimated value $580K, wants to net at least $520K after fees
+- Decision makers: Investor owns all properties individually, makes own decisions
+- Hot buttons: Speed, efficiency, investor-savvy agent who understands 1031 exchanges
+
+APPOINTMENT DETAILS:
+- Scheduled: Wednesday, October 23, 2025, 2:00 PM EST
+- Type: Zoom Meeting (investor lives out of state but manages locally)
+- Sent calendar invite: YES
+- Confirmation email sent: YES
+
+NEXT STEPS:
+- Reminder set for October 22 at 2:00 PM
+- Send agent background on 1031 exchanges before meeting
+- Pull comps for all three properties
+- Prepare portfolio presentation strategy
+
+AGENT NOTES:
+🔥 HOT LEAD - Sophisticated investor, not emotional, very business-focused. He's done multiple deals before and knows what he wants. Agent should emphasize experience with investment properties and multi-property transactions. Mentioned he may have more properties to sell in future if this goes well. Potential for ongoing relationship. He specifically asked about our experience with 1031 exchanges and simultaneous closes. This could be a 3-property listing if we handle it right.</div>
+                            <div class="why-box">
+                                <strong>Why This Works:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Details on each property</li>
+                                    <li>Investor mindset captured</li>
+                                    <li>Identifies technical needs (1031)</li>
+                                    <li>Potential for multiple deals noted</li>
+                                    <li>Agent prep clearly outlined</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="example-9" class="example-content">
+                    <div class="comparison-grid">
+                        <div class="bad-example">
+                            <h4>❌ BAD NOTE</h4>
+                            <div class="note-sample">Buyer unsure. Might not be ready. Seemed nervous.</div>
+                            <div class="why-box">
+                                <strong>Why This Fails:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Vague assessment</li>
+                                    <li>No qualification details</li>
+                                    <li>Doesn't help agent prepare</li>
+                                    <li>No appointment booked or plan</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="good-example">
+                            <h4>✅ GOOD NOTE</h4>
+                            <div class="note-sample">DATE & TIME: 10/20/2025, 12:45 PM
+CALL OUTCOME: Appointment Booked
+
+CONVERSATION SUMMARY:
+- First-time buyer, very nervous about the process
+- Timeline: Wants to buy "sometime in next 6 months" but unsure exactly when
+- Budget: Has not spoken to lender yet, thinks she can afford $1,800/month payment
+- Motivation: "Everyone keeps telling me I should buy instead of rent, but I don't know if I'm ready." Currently pays $1,600/month rent.
+- Property preferences: 2-3 bedrooms, doesn't want a fixer-upper, safe neighborhood
+- Decision makers: Single buyer, but wants parents' input (they'll help with down payment)
+- Concerns: Worried about being "locked down," anxiety about big financial commitment, doesn't understand the buying process
+
+APPOINTMENT DETAILS:
+- Scheduled: Friday, October 25, 2025, 5:30 PM EST
+- Type: Phone Consultation (less intimidating than in-person for first call)
+- Sent calendar invite: YES
+- Confirmation email sent: YES with first-time buyer FAQ attached
+
+NEXT STEPS:
+- Reminder set for October 24 at 5:30 PM
+- Send educational content about buying vs renting before meeting
+- Prepare rent vs buy calculator for agent to share
+- Schedule 30-minute call (not overwhelming)
+
+AGENT NOTES:
+🌡️ WARM LEAD - Buyer is financially qualified (or close to it) but has significant first-time buyer anxiety. This is educational/consultative, not transactional. Agent should NOT push for immediate action. Goal of first call: Build trust, educate, ease fears. She mentioned her friend had a bad experience with a "pushy agent," so be extra consultative. Focus on timeline being HER choice. If handled well, she'll be ready to move forward in 2-3 months. Her hesitation is normal first-time buyer fear, not lack of seriousness. Parent involvement is positive—they want her to buy.</div>
+                            <div class="why-box">
+                                <strong>Why This Works:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Identifies emotional barriers</li>
+                                    <li>Gives agent clear approach strategy</li>
+                                    <li>Explains context (pushy agent story)</li>
+                                    <li>Sets appropriate expectations</li>
+                                    <li>Notes parent involvement dynamic</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="example-10" class="example-content">
+                    <div class="comparison-grid">
+                        <div class="bad-example">
+                            <h4>❌ BAD NOTE</h4>
+                            <div class="note-sample">Emergency sale. Needs agent now. Appt tomorrow.</div>
+                            <div class="why-box">
+                                <strong>Why This Fails:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>What's the emergency?</li>
+                                    <li>Property details missing</li>
+                                    <li>No appointment time</li>
+                                    <li>Agent walks in blind</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="good-example">
+                            <h4>✅ GOOD NOTE</h4>
+                            <div class="note-sample">DATE & TIME: 10/20/2025, 5:50 PM
+CALL OUTCOME: Appointment Booked
+
+CONVERSATION SUMMARY:
+- URGENT: Seller needs to close within 30 days due to medical emergency
+- Property: 3-bed, 2-bath home at 555 Sunset Boulevard, Northside
+- Timeline: CRITICAL - Husband has cancer diagnosis, needs experimental treatment across country, moving to stay with family. Treatment starts mid-November.
+- Budget: Owes $195K on mortgage, believes home is worth $280-300K based on neighbor sales
+- Motivation: Wife was very emotional but composed. Said "We need to focus on his health, not the house. We just want this handled quickly and fairly."
+- Property condition: Clean, well-maintained, some furniture they'll leave behind
+- Decision makers: Married couple, both on title, both understand urgency
+- Hot buttons: SPEED above all else, fair price (not trying to maximize), need reliable agent who can deliver on timeline promise
+
+APPOINTMENT DETAILS:
+- Scheduled: TOMORROW - Monday, October 21, 2025, 9:00 AM EST
+- Type: In-person at property (555 Sunset Boulevard)
+- Sent calendar invite: YES
+- Confirmation email sent: YES
+- CONFIRMATION CALL: Will call tonight at 8 PM to confirm
+
+NEXT STEPS:
+- Pull recent comps TONIGHT for agent review
+- Research cash buyer network for fast close options
+- Prepare expedited listing timeline presentation
+- Have staging contact ready if needed
+- Personal confirmation call tonight
+
+AGENT NOTES:
+🔥🔥🔥 HIGHEST URGENCY - This is a genuine medical emergency situation. Wife (Karen) was tearful but appreciative. They are motivated by necessity, not choice. Agent must be compassionate while also being direct about timeline realities. They understand they may get slightly less than top dollar for speed, and they're okay with that. Agent should present multiple options: 1) Traditional listing with aggressive marketing, 2) Cash buyer for immediate close, 3) Hybrid approach. DO NOT add stress—they have enough. Be the solution, not another problem. This couple needs an advocate. If we handle this with care and deliver on timeline, they'll refer everyone they know.</div>
+                            <div class="why-box">
+                                <strong>Why This Works:</strong>
+                                <ul style="margin-left: 1.5rem; font-size: 0.9rem;">
+                                    <li>Context fully explained</li>
+                                    <li>Emotional sensitivity noted</li>
+                                    <li>Multiple solution paths outlined</li>
+                                    <li>Urgency level unmistakable</li>
+                                    <li>Compassionate approach guidance</li>
+                                    <li>Immediate action items clear</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Practice Exercise: Transcribe Mock Calls</h2>
+            
+            <p>Now it's your turn! Read these mock call transcripts and practice writing proper CRM notes using the template. Compare your notes to the answer key.</p>
+
+            <div class="practice-exercise">
+                <div class="exercise-header">🎯 Practice Exercise #1: Buyer Call</div>
+                
+                <div class="mock-call">
+                    <p class="speaker">YOU:</p>
+                    <p>"Hi, this is Alex from Buzzworks VA. Am I speaking with Jennifer?"</p>
+                    
+                    <p class="speaker">JENNIFER:</p>
+                    <p>"Yes, this is she."</p>
+                    
+                    <p class="speaker">YOU:</p>
+                    <p>"Great! I'm calling about the home buying inquiry you submitted on our website yesterday. Do you have a few minutes to chat about what you're looking for?"</p>
+                    
+                    <p class="speaker">JENNIFER:</p>
+                    <p>"Oh yes! Actually, my husband and I have been looking for a few months now. We're getting kind of frustrated honestly."</p>
+                    
+                    <p class="speaker">YOU:</p>
+                    <p>"I understand. Tell me what's been frustrating?"</p>
+                    
+                    <p class="speaker">JENNIFER:</p>
+                    <p>"Well, we keep seeing houses we like online, but by the time we call, they're already under contract. We lost out on two houses we really loved. We've been renting for five years and we're just ready to have our own place, you know?"</p>
+                    
+                    <p class="speaker">YOU:</p>
+                    <p>"That's definitely frustrating. Are you working with an agent currently?"</p>
+                    
+                    <p class="speaker">JENNIFER:</p>
+                    <p>"We were, but honestly he wasn't very responsive. He'd take days to get back to us. That's partly why we keep missing out."</p>
+                    
+                    <p class="speaker">YOU:</p>
+                    <p>"Got it. So let me ask you a few questions so I can match you with the right agent. What areas are you looking in?"</p>
+                    
+                    <p class="speaker">JENNIFER:</p>
+                    <p>"We really like the Riverside and Parkview neighborhoods. Close to downtown but still quiet. Good schools because we're planning to start a family soon."</p>
+                    
+                    <p class="speaker">YOU:</p>
+                    <p>"Perfect. And what's your price range?"</p>
+                    
+                    <p class="speaker">JENNIFER:</p>
+                    <p>"We're pre-approved for $425,000 through Wells Fargo. We've got $60,000 for a down payment. So we're definitely ready to buy, we just need someone who can move fast when we find the right house."</p>
+                    
+                    <p class="speaker">YOU:</p>
+                    <p>"That's great that you're pre-approved. What are you looking for in terms of bedrooms, bathrooms?"</p>
+                    
+                    <p class="speaker">JENNIFER:</p>
+                    <p>"At least 3 bedrooms, 2 bathrooms. We'd love a yard for a dog eventually. And honestly, we don't want a fixer-upper. We're both busy with work and don't have time for major projects."</p>
+                    
+                    <p class="speaker">YOU:</p>
+                    <p>"Makes sense. And what's your timeline? When do you want to be in your new home?"</p>
+                    
+                    <p class="speaker">JENNIFER:</p>
+                    <p>"Our lease is up at the end of December, so ideally we'd like to close before then. That gives us about two months, which I know is tight."</p>
+                    
+                    <p class="speaker">YOU:</p>
+                    <p>"Two months is definitely doable. Based on what you've shared, I think our agent Sarah would be perfect for you. She specializes in Riverside and Parkview, and she's known for being incredibly responsive—that's her thing. Would you and your husband be available for a quick Zoom call with her to discuss your search?"</p>
+                    
+                    <p class="speaker">JENNIFER:</p>
+                    <p>"Yes! We're both free tomorrow evening after 6. Would that work?"</p>
+                    
+                    <p class="speaker">YOU:</p>
+                    <p>"Let me check... Yes! How about 6:30 PM tomorrow? It'll be a 30-minute call to go over your needs and get you set up with an automated search."</p>
+                    
+                    <p class="speaker">JENNIFER:</p>
+                    <p>"Perfect. I'm excited—we really need someone who can help us finally get into a house!"</p>
+                </div>
+
+                <div class="tip-box">
+                    <strong>📝 Your Task:</strong>
+                    Write a complete CRM note for this call using the template. Include all relevant details, emotional tone, hot buttons, and next steps. Then compare to best practices in the examples above.
+                </div>
+            </div>
+
